@@ -71,7 +71,7 @@ app.get('/api/data/:imdbID', (req, res) => {
     const item = data.Search.find(d => d.imdbID === imdbID);
 
     if (!item) {
-        return res.status(404).json({ message: "Böyle bir veri bulunamadı" });
+        return res.status(401).json({ message: "Böyle bir veri bulunamadı" });
     }
 
     res.status(200).json(item);

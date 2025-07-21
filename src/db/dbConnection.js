@@ -1,9 +1,6 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
 
-mongoose.connect(process.env.DB_URL)
-  .then(() => {
-    console.log("Veri tabanına bağlandı");
-  })
-  .catch((err) => {
-    console.log("Veri tabanına bağlanamadı:", err);
-  });
+mongoose
+  .connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB bağlantısı başarılı'))
+  .catch((err) => console.error('MongoDB bağlantı hatası:', err));

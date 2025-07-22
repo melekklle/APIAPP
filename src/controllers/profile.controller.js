@@ -2,26 +2,28 @@ const Profile = require('../models/Profile');
 
 const saveProfile = async (req, res) => {
   try {
-    console.log('Gelen veri:', req.body);  // İstek verisi burada görünecek
-    const { name, telephone, tc, email } = req.body;
+    const { name, telephone, email } = req.body;
 
-    if (!name || !telephone || !tc || !email) {
-      return res.status(400).json({
-        success: false,
-        message: 'Tüm alanlar (name, telephone, tc, email) zorunludur.',
-      });
+    if (!name || !telephone || !email) {
+      return res.status(400).json({ success: false, message: 'Tüm alanlar zorunlu.' });
     }
 
-    const profile = new Profile({ name, telephone, tc, email });
+    const profile = new Profile({ name, telephone, email });
     await profile.save();
 
-    console.log('Kayıt başarılı:', profile);
-
-    res.json({ success: true, message: 'Profil başarıyla kaydedildi.' });
+    res.json({ success: true, message: 'Profil kaydedildi.' });
   } catch (error) {
-    console.error('Profil kaydetme hatası:', error);
     res.status(500).json({ success: false, message: 'Sunucu hatası', error: error.message });
   }
 };
 
-module.exports = { saveProfile };
+const getProfiles = async (req, res) => {
+  try {
+    const profiles = await Profile.find();
+    res.json(profiles);
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Sunucu hatası', error: error.message });
+  }
+};
+
+module.exports = { saveProfile, getProfiles };
